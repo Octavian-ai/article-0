@@ -3,7 +3,7 @@
 from keras.models import Sequential
 from keras.layers import Dense
 
-from .graph_sequence import *
+from graph_sequence import *
 
 def generate_model():
 	model = Sequential([
@@ -29,4 +29,10 @@ def train():
 	model.fit(seq_train)
 	result = model.evaluate(seq_test)
 
-	print(result)
+	print(f"Accuracy: {round(result[1]*100)}")
+
+
+if __name__ == '__main__':
+	train()
+
+
