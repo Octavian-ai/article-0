@@ -1,0 +1,5 @@
+{
+	"neo4j_url": "bolt://localhost",
+	"neo4j_user": "neo4j",
+	"neo4j_password": "neo4j"
+}
