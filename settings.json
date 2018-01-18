@@ -1,5 +1,5 @@
 {
 	"neo4j_url": "bolt://b2355e7e.databases.neo4j.io",
-	"neo4j_user": "neo4j",
-	"neo4j_password": "neo4j"
+	"neo4j_user": "readonly",
+	"neo4j_password": "OS5jLkVsOUZCVTdQOU5PazBo"
 }

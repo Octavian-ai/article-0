@@ -36,7 +36,9 @@ class GraphSequence(keras.utils.Sequence):
 			data = session.run(self.query, **self.query_params).data()
 			data = [np.flatten([ i["style"], i["style_preference"], [i["score"]] ]) for i in data]
 			data = more_itertools.chunked(data, self.batch_size)
-			self.data = np.array(data)
+			self.data = np.array(list(data))
+
+			print(self.data)
 
 
 	def __len__(self):

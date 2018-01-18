@@ -26,8 +26,8 @@ def train():
 				optimizer='adam',
 				metrics=['accuracy'])
 
-	model.fit(seq_train)
-	result = model.evaluate(seq_test)
+	model.fit_generator(seq_train)
+	result = model.evaluate_generator(seq_test)
 
 	print(f"Accuracy: {round(result[1]*100)}")
 
