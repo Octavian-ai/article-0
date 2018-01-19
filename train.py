@@ -7,9 +7,10 @@ from graph_sequence import *
 
 def generate_model():
 	model = Sequential([
-		Dense(8, 
-			input_shape=(5,),
-			activation='softmax'),
+		Dense(4, 
+			input_shape=(4,),
+			activation='tanh'),
+		Dense(4, activation='tanh'),
 		Dense(1, activation='sigmoid'),
 	])
 
@@ -26,7 +27,7 @@ def train():
 				optimizer='adam',
 				metrics=['accuracy'])
 
-	model.fit_generator(seq_train)
+	model.fit_generator(seq_train, epochs=2)
 	result = model.evaluate_generator(seq_test)
 
 	print(f"Accuracy: {round(result[1]*100)}")

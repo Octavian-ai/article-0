@@ -12,16 +12,16 @@ class GraphSequence(keras.utils.Sequence):
 		
 		self.query = """
 			MATCH p=
-				(a:PERSON {dataset_name:{dataset_name}, test:{test}}) 
+				(a:PERSON) 
 					-[:WROTE]-> 
-				(b:REVIEW ) 
+				(b:REVIEW {dataset_name:{dataset_name}, test:{test}}) 
 					-[:OF]-> 
 				(c:PRODUCT)
-			RETURN a.style_preference AS style_preference, c.style AS style, b.score AS score
+			RETURN a.style_preference + c.style as x, b.score as y
 		"""
 
 		self.query_params = {
-			"dataset_name": "article0",
+			"dataset_name": "article_0",
 			"test": test
 		}
 
@@ -34,11 +34,10 @@ class GraphSequence(keras.utils.Sequence):
 
 		with driver.session() as session:
 			data = session.run(self.query, **self.query_params).data()
-			data = [np.flatten([ i["style"], i["style_preference"], [i["score"]] ]) for i in data]
+			data = [ (np.array(i["x"]), i["y"]) for i in data]
 			data = more_itertools.chunked(data, self.batch_size)
-			self.data = np.array(list(data))
-
-			print(self.data)
+			data = list(data)
+			self.data = [ (np.array([j[0] for j in i]), np.array([j[1] for j in i])) for i in data]
 
 
 	def __len__(self):
