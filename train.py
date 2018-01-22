@@ -18,19 +18,19 @@ def generate_model():
 
 def train():
 
-	seq_train = GraphSequence()
-	seq_test = GraphSequence(test=True)
-
 	model = generate_model()
 
 	model.compile(loss='mean_squared_error',
 				optimizer='adam',
 				metrics=['accuracy'])
 
+	seq_train = GraphSequence()
 	model.fit_generator(seq_train, epochs=2)
+
+	seq_test = GraphSequence(test=True)
 	result = model.evaluate_generator(seq_test)
 
-	print(f"Accuracy: {round(result[1]*100)}")
+	print(f"Accuracy: {round(result[1]*100)}%")
 
 
 if __name__ == '__main__':

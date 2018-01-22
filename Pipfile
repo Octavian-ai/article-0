@@ -12,5 +12,6 @@ name = "pypi"
 [packages]
 
 keras = "*"
-neo4j-driver = "*"
+"neo4j-driver" = "*"
 more-itertools = "*"
+numpy = "*"

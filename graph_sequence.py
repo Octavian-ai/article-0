@@ -35,7 +35,11 @@ class GraphSequence(keras.utils.Sequence):
 		with driver.session() as session:
 			data = session.run(self.query, **self.query_params).data()
 			data = [ (np.array(i["x"]), i["y"]) for i in data]
+			
+			# Split the data up into "batches"
 			data = more_itertools.chunked(data, self.batch_size)
+
+			# Format our batches in the way Keras expects them
 			data = list(data)
 			self.data = [ (np.array([j[0] for j in i]), np.array([j[1] for j in i])) for i in data]
 
