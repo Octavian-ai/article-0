@@ -12,12 +12,12 @@ class GraphSequence(keras.utils.Sequence):
 		
 		self.query = """
 			MATCH p=
-				(a:PERSON) 
+				(person:PERSON) 
 					-[:WROTE]-> 
-				(b:REVIEW {dataset_name:{dataset_name}, test:{test}}) 
+				(review:REVIEW {dataset_name:{dataset_name}, test:{test}}) 
 					-[:OF]-> 
-				(c:PRODUCT)
-			RETURN a.style_preference + c.style as x, b.score as y
+				(product:PRODUCT)
+			RETURN person.style_preference + product.style as x, review.score as y
 		"""
 
 		self.query_params = {
@@ -40,7 +40,6 @@ class GraphSequence(keras.utils.Sequence):
 			data = more_itertools.chunked(data, self.batch_size)
 
 			# Format our batches in the way Keras expects them
-			data = list(data)
 			self.data = [ (np.array([j[0] for j in i]), np.array([j[1] for j in i])) for i in data]
 
 
