@@ -7,7 +7,7 @@ from neo4j.v1 import GraphDatabase, Driver
 
 class GraphSequence(keras.utils.Sequence):
 
-	def __init__(self, batch_size=32, test=False):
+	def __init__(self, args, batch_size=32, test=False):
 		self.batch_size = batch_size
 		
 		self.query = """
@@ -26,7 +26,7 @@ class GraphSequence(keras.utils.Sequence):
 		}
 
 		with open('./settings.json') as f:
-			self.settings = json.load(f)
+			self.settings = json.load(f)[args.database]
 
 		driver = GraphDatabase.driver(
 			self.settings["neo4j_url"], 
@@ -39,7 +39,14 @@ class GraphSequence(keras.utils.Sequence):
 			# Split the data up into "batches"
 			data = more_itertools.chunked(data, self.batch_size)
 
-			# Format our batches in the way Keras expects them
+			# Format our batches in the way Keras expects them:
+			# An array of tuples (x_batch, y_batch)
+
+			# An x_batch is a numpy array of shape (batch_size, 12), 
+			# containing the concatenated style and style_preference vectors. 
+
+			# A y_batch is a numpy array of shape (batch_size,1) containing the review scores.
+
 			self.data = [ (np.array([j[0] for j in i]), np.array([j[1] for j in i])) for i in data]
 
 
