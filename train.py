@@ -11,7 +11,7 @@ def generate_model():
 			input_shape=(12,),
 			activation='tanh'),
 		Dense(6, activation='tanh'),
-		Dense(1, activation='sigmoid'),
+		Dense(1, activation='tanh'),
 	])
 
 	return model
